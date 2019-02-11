@@ -11,6 +11,8 @@ class DataProcessor:
         # computer.
         self._directory = "D:/geomcps/UserIDWalking/UserIDWalkingData"
         self._data = []
+        self._ext = ".csv"
+        self._fileList = []
 
     def set_file_directory(self):
         '''
@@ -19,18 +21,35 @@ class DataProcessor:
         go = True
         while(go):
             # get file directory from users or accept default
-            directory = input("Enter directory of files (default is\n"
-                              "D:/geomcps/UserIDWalking/UserIDWalkingData): ")
-            if directory == "":  # user accepts default directory
+            dir = input("Enter directory: ")
+            # dir = input("Enter directory of files (default is\n"
+            #              "D:/geomcps/UserIDWalking/UserIDWalkingData): ")
+            if dir == "":  # user accepts default directory
                 go = False
             # if user selects a different directory, let's check that it's a
             # valid place on the computer.
-            if os.path.exists(directory):
+            if os.path.exists(dir):
                 # if the new directory is valid, stop bothering user.
-                self._directory = directory
+                self._directory = dir
                 go = False
         # report the directory for the data
         print("Directory set to : ", self._directory)
+
+    def set_file_extension(self):
+        '''
+        set file extension to use
+        '''
+        go = True
+        while(go):
+            ext = input("File extension of data files (default .csv): ")
+            if ext == "":
+                go = False
+            else:
+                if ext[0] != ".":
+                    ext = "." + ext
+                self._ext = ext
+                go = False
+        print("Files with extension: ", self._ext)
 
     def collect_files(self):
         '''
@@ -40,34 +59,34 @@ class DataProcessor:
         for dirName, subdirList, fileList in os.walk(self._directory):
             nfiles += 1
             # print('Found directory: ', dirName)
-            # for fname in fileList:
-            #     print("\t", fname)
-        return fileList
+            for fname in fileList:
+                # print("\t", fname)
+                self._fileList.append(dirName + "\\" + fname)
 
-    def only_csv_files(self, fileList):
+    def only_data_files(self):
         '''
-        Restrict the files in the directory to those in the csv format
+        Restrict the files in the directory to those with the data extension
         '''
         newFileList = []
-        for file in fileList:
-            if file[-4:] == ".csv":
+        for file in self._fileList:
+            if file[len(self._ext):] == self._ext:
                 newFileList.append(file)
-        return newFileList
+        self._fileList = newFileList
 
-    def read_files(self, fileList):
+    def read_files(self):
         '''
         Input: List of data files in readable format
         Calls read_file for each
         '''
         file_num = 0
-        for file in fileList:
+        for file in self._fileList:
             self.read_file(file, file_num)
             file_num += 1
 
     def read_file(self, file_name, file_num):
         '''
         Inputs: file name of data to import, file number to act as data id
-        Pulls data into nested listsself. Each file becomes a first-level item,
+        Pulls data into nested list. Each file becomes a first-level item,
         each line in the file becomes a list of the items on that line.
         '''
         fullFileName = self._directory + '\\' + file_name
@@ -88,11 +107,12 @@ class DataProcessor:
         Input: data_id for data to print
         Prints data, one line per line.
         '''
-        for walker in self._data[data_id]:
-            for time in walker:
-                for position in time:
-                    print(position, end="")
-                print("\n", end="")
+        for file in self._data[data_id]:
+            for line in file:
+                print(line)
+                # for position in time:
+                #     print(position, end="")
+            print("\n", end="")
 
 
 def main():
@@ -102,10 +122,11 @@ def main():
     '''
     dp = DataProcessor()
     dp.set_file_directory()
-    fileList = dp.collect_files()
-    fileList = dp.only_csv_files(fileList)
-    dp.read_files(fileList)
-    dp.print_data(0)
+    dp.set_file_extension()
+    dp.collect_files()
+    dp.only_data_files()
+    dp.read_files()
+    dp.print_data(2)
 
 
 if __name__ == '__main__':
