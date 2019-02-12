@@ -104,9 +104,9 @@ class DataProcessor:
         Pulls data into nested list. Each file becomes a first-level item,
         each line in the file becomes a list of the items on that line.
         '''
-        once = False
-        if file_num == 0:
-            once = True
+        # once = False
+        # if file_num == 0:
+        #     once = True
         fullFileName = os.path.join(self._directory, file_name)
         self._data.append([])
         id_data = []
@@ -125,9 +125,9 @@ class DataProcessor:
             # confirm all data is float
             for i in range(len(line_data)):
                 line_data[i] = float(line_data[i])
-            if once:
-                print(line_data)
-                once = False
+            # if once:
+            #     print(line_data)
+            #     once = False
             id_data.append(line_data)
         f.close()
         # print("File ", file_name, " processed.")
