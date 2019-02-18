@@ -1,20 +1,22 @@
 import math
 
+# A point in time.
 class Point:
-    def __init__(self, coords, time):
+    def __init__(self, coords, time = 0):
         self.coords = coords
         self.t = time
 
     def eq_degree(self, other):
-        return len(self.coords) == len(other.coords)
+        return len(self) == len(other)
 
     def dist(self, other):
-        if not self.eq_degree(other):
-            return -1
-        sum = 0
-        for i in range(len(self.coords)):
-            sum += (self.coords[i] - other.coords[i])**2
-        return math.sqrt(sum)
+        return math.sqrt(sum((a-b)**2 for a,b in zip(self, other)))
+
+    def __len__(self):
+        return len(self.coords)
+
+    def __iter__(self):
+        return iter(self.coords)
 
 
 if __name__ == '__main__':
@@ -23,3 +25,5 @@ if __name__ == '__main__':
     p1 = Point(coords1, 0)
     p2 = Point(coords2, 0)
     print(p1.dist(p2))
+
+    print(list(zip(p1,p2)))
