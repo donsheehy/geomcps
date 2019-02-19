@@ -10,7 +10,7 @@ class DataProcessor:
         # default file directory is just where I personally keep the data on my
         # computer.
         #self._directory = r"C:\Users\Abhinna Adhikari\PycharmProjects\Geomcps\UserIDWalking"
-        self._directory = os.fspath("C:\\Users\\Abhinna Adhikari\\PycharmProjects\\UserIDWalkingData")
+        self._directory = os.fspath("D:\\geomcps\\UserIDWalking\\UserIDWalkingData")
         self._data = []
         # self._ext = "tsd"
         self._ext = "csv"
