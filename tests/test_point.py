@@ -1,5 +1,3 @@
-#! /Library/Frameworks/Python.framework/Versions/3.5/bin/python3
-
 import unittest
 import os,sys,inspect
 currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
