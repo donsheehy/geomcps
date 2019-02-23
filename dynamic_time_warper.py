@@ -85,25 +85,3 @@ def dtwI(T1, T2, r = -1):
 # squared euclidean metric
 def dtwD(T1, T2, r = -1):
     return dtw(T1, T2, r, metricD)
-
-# traj1 = Trajectory([Point([1,1]),Point([10,1]),Point([1,1]),Point([1,1]),Point([1,1]),Point([1,10]),Point([1,10]),Point([1,1])])
-# traj2 = Trajectory([Point([1,1]),Point([10,10]),Point([1,10]),Point([1,1]),Point([1,1]),Point([1,1]),Point([1,1]),Point([1,1])])
-# print(dtwI(traj1, traj2))
-# print(dtwD(traj1, traj2))
-
-a1 = [0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0]
-a2 = [0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0]
-b1 = [0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0]
-b2 = [0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0]
-c1 = [0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0]
-c2 = [0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0]
-x = [[a, b] for a, b in zip(a1, a2)]
-y = [[a, b] for a, b in zip(b1, b2)]
-z = [[a, b] for a, b in zip(c1, c2)]
-print("x and y", dtwI(x, y, 10))
-print("x and z", dtwI(x, z, 10))
-print("y and z", dtwI(y, z, 10))
-print()
-print("x and y", dtwD(x, y))
-print("x and z", dtwD(x, z))
-print("y and z", dtwD(y, z))

@@ -20,13 +20,3 @@ class Point:
 
     def __getitem__(self, item):
         return self.coords[item]
-
-
-if __name__ == '__main__':
-    coords1 = [-1, 2, 3]
-    coords2 = [4, 0, -3]
-    p1 = Point(coords1, 0)
-    p2 = Point(coords2, 0)
-    print(p1.dist(p2))
-
-    print(list(zip(p1,p2)))
