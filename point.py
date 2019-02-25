@@ -17,3 +17,6 @@ class Point:
 
     def __iter__(self):
         return iter(self.coords)
+
+    def __getitem__(self, item):
+        return self.coords[item]
