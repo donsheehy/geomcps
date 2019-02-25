@@ -21,13 +21,3 @@ def frechetDist(P,Q):
     ca = np.ones((len(P),len(Q)))
     ca = np.multiply(ca,-1)
     return _c(ca,len(P)-1,len(Q)-1,p,q)
-
-if __name__ == '__main__':
-    L1 = [point([1,1]), point([2, 1]), point([2,2])]
-    L2 = [point([2,2]), point([0,1]), point([2,4])]
-    P = Trajectory(L1)
-    Q = Trajectory(L1)
-    R = Trajectory(L2)
-
-    print(frechetDist(P, Q))
-    print(frechetDist(P, R))
