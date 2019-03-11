@@ -17,8 +17,8 @@ class DataProcessor:
         self._track_file_name = 0
         self._fileList = []
         self._debugMode = False
-        self.folder = ''
-        self.file = ''
+        self._folder = ''
+        self._file = ''
         self._data_samples = ds.DataSamples()
         self.read_config()
 
@@ -27,14 +27,14 @@ class DataProcessor:
         Get configuration from config file.
         '''
         res = config.read_config()
-        self._directory = os.fspath(res[0])
-        ext = res[1]
+        self._directory = os.fspath(res[0][:-1])
+        ext = res[1][:-1]
         if ext[0] == ".":
             ext = ext[1:]
         self._ext = ext
-        self._track_folder_name = int(res[2])
-        self._track_file_name = int(res[3])
-        if res[4] == 'f':
+        self._track_folder_name = int(res[2][:-1])
+        self._track_file_name = int(res[3][:-1])
+        if res[4][:-1] == 'f':
             self._debugMode = False
         else:
             self._debugMode = True
@@ -97,7 +97,7 @@ class DataProcessor:
         # print(self._fileList)
         newFileList = []
         for file in self._fileList:
-            file_ext = file.split(os.extsep())
+            file_ext = file.split(os.extsep)
             if file_ext[-1] == self._ext:
                 newFileList.append(file)
         self._fileList = newFileList
@@ -178,6 +178,8 @@ class DataProcessor:
         #     once = True
         full_file_name = os.path.join(self._directory, file_name)
         dsname = self.name_handling()
+        if dsname == '':
+            dsname = file_num
         ds_dict = self._data_samples.get_data_samples()
         if (dsname in ds_dict):
             dsamp = ds_dict[dsname]
@@ -205,9 +207,15 @@ class DataProcessor:
             di.add_data(line_data)
         f.close()
 
-    def name_handling(self, filechars):
-        dsname = [self._folder[:self._track_folder_name], self._file[:self._track_file_name]]
+    def name_handling(self):
+        a = self._folder[:self._track_folder_name]
+        b = self._file[:self._track_file_name]
+        b = ''.join(b)
+        tmp = b.split('-')
+        b = tmp[0]
+        dsname = [a, b]
         dsname = '-'.join(dsname)
+        return dsname
 
     def print_data(self, data_id):
         '''
@@ -235,9 +243,9 @@ def main():
     # dp.read_files()
     dp.read_files_to_obj()
     all_data_samples = dp._data_samples.get_data_samples()
-    print(all_data_samples.get('ali'))
-    print(all_data_samples.get('ali').get_instances())
-    print(all_data_samples.get('ali').get_instances()[0].get_data())
+    print(all_data_samples.get('-alive'))
+    print(all_data_samples.get('-alive').get_instances())
+    print(all_data_samples.get('-alive').get_instances()[0].get_data())
     # dp.print_data(2)
 
 
