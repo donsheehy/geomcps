@@ -7,7 +7,7 @@ from trajectory import Trajectory
 # Can take either trajectories or lists DEPENDING ON THE GIVEN METRIC
 # Takes two lists, a radius r, and a metric
 # (r) represents the maximum "warp" our function can produce
-# set r = -1 for no bound on warping distance
+# SET r = -1 for no bound on warping distance
 def dtw(T1, T2, r, metric):
     table = [[] for x in range(len(T1))]
     for i in range(len(T1)):
@@ -58,12 +58,10 @@ def trajectoryToDataset(traj):
 
 
 def metricI(a, b):
-    return (a - b)**2
-    # return abs(a-b)
-
+    return abs(a-b)
 
 def metricD(p1, p2):
-    return sum((a - b) ** 2 for a, b in zip(p1, p2))
+    return sum(metricI(a, b) for a, b in zip(p1, p2))
     # return sum(abs(a-b) for a, b in zip(p1, p2))
 
 
