@@ -39,44 +39,8 @@ class DataProcessor:
         else:
             self._debugMode = True
 
-    def set_file_directory(self):
-        '''
-        Sets the absolute file directory path for files to import.
-        '''
-        go = True
-        while(go):
-            # get file directory from users or accept default
-            if self._debugMode:
-                dir = ""
-            else:
-                dir = input("Enter directory: ")
-            # dir = input("Enter directory of files (default is\n"
-            #              "D:/geomcps/UserIDWalking/UserIDWalkingData): ")
-            # dir = ""
-            if dir == "":  # user accepts default directory
-                go = False
-            # if user selects a different directory, let's check that it's a
-            # valid place on the computer.
-            if os.path.exists(dir):
-                # if the new directory is valid, stop bothering user.
-                self._directory = dir
-                go = False
-
     def get_file_directory(self):
         return self._directory
-
-    def set_file_extension(self, ext=""):
-        '''
-        set file extension to use
-        '''
-        if self._debugMode:
-            pass
-        else:
-            ext = input("File extension of data files: ")
-            if ext != "":
-                if ext[0] == ".":
-                    ext = ext[1:]
-                self._ext = ext
 
     def get_file_extension(self):
         return self._ext
@@ -101,56 +65,6 @@ class DataProcessor:
             if file_ext[-1] == self._ext:
                 newFileList.append(file)
         self._fileList = newFileList
-
-    def read_files(self):
-        '''
-        Input: List of data files in readable format
-        Calls read_file for each
-        '''
-        file_num = 0
-        for file in self._fileList:
-            if self._track_folder_name:
-                self._folder = file.split(os.sep[-2])
-            if self._track_file_name:
-                tmpfile = file.split(os.sep)[-1]
-                self._file = tmpfile.split(os.extsep[0])
-            self.read_file(file, file_num)
-            file_num += 1
-
-    def read_file(self, file_name, file_num):
-        '''
-        Inputs: file name of data to import, file number to act as data id
-        Pulls data into nested list. Each file becomes a first-level item,
-        each line in the file becomes a list of the items on that line.
-        '''
-        # once = False
-        # if file_num == 0:
-        #     once = True
-        fullFileName = os.path.join(self._directory, file_name)
-        self._data.append([])
-        id_data = []
-        f = open(fullFileName)
-        for line in f:
-            line_data = []
-            if self._ext == 'csv':
-                # split by comma
-                line_data = line.split(',')
-            else:
-                # default to split by whitespace
-                line_data = line.split()
-            # if the line of data ends with a newline, cut it off
-            if str(line_data[-1])[-1] == '\n':
-                line_data[-1] = str(line_data[-1])[:-1]
-            # confirm all data is float
-            for i in range(len(line_data)):
-                line_data[i] = float(line_data[i])
-            # if once:
-            #     print(line_data)
-            #     once = False
-            id_data.append(line_data)
-        f.close()
-        # print("File ", file_name, " processed.")
-        self._data[file_num].append(id_data)
 
     def read_files_to_obj(self):
         '''
@@ -236,16 +150,13 @@ def main():
     importing data from the relevant computer directory
     '''
     dp = DataProcessor()
-    # dp.set_file_directory()
-    # dp.set_file_extension()
     dp.collect_files()
     dp.only_data_files()
-    # dp.read_files()
     dp.read_files_to_obj()
     all_data_samples = dp._data_samples.get_data_samples()
-    print(all_data_samples.get('-alive'))
-    print(all_data_samples.get('-alive').get_instances())
-    print(all_data_samples.get('-alive').get_instances()[0].get_data())
+    print(all_data_samples.get('-03'))
+    print(all_data_samples.get('-03').get_instances())
+    print(all_data_samples.get('-03').get_instances()[0].get_data())
     # dp.print_data(2)
 
 

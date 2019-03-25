@@ -3,12 +3,16 @@ def write_config():
     ext = input("Data file extension: ")
     meta1 = yn2tf(input("Save folder names for metadata? Y/N: "))
     if meta1 == 't':
-        folderchars = input("Number of folder characters to save? Leave blank for all: ")
+        folderchars = input("Number of folder characters to save? Leave blank for max (64): ")
+        if folderchars == '':
+            folderchars = 64
     else:
         folderchars = 0
     meta2 = yn2tf(input("Save file names for metadata? Y/N: "))
     if meta2 == 't':
-        filechars = input("Number of file characters to save? Leave blank for all: ")
+        filechars = input("Number of file characters to save? Leave blank for max (64): ")
+        if filechars == '':
+            filechars = 64
     else:
         filechars = 0
     mode = yn2tf(input("Use debug mode? Y/N: "))
