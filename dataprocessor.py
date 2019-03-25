@@ -54,6 +54,9 @@ class DataProcessor:
                 newFile = os.path.join(dirName, fname)
                 self._fileList.append(newFile)
 
+    def get_files(self):
+        return self._fileList
+
     def only_data_files(self):
         '''
         Restrict the files in the directory to those with the data extension
@@ -114,9 +117,7 @@ class DataProcessor:
             # confirm all data is float
             for i in range(len(line_data)):
                 line_data[i] = float(line_data[i])
-            # if once:
-            #     print(line_data)
-            #     once = False
+
             di = dsamp.add_instance()
             di.add_data(line_data)
         f.close()
@@ -143,6 +144,13 @@ class DataProcessor:
                 #     print(position, end="")
             print("\n", end="")
 
+    def make_set_of_trajectories(self):
+        trajSets = []
+        dict = self._data_samples.get_data_samples()
+        for data in dict.values():
+            trajSets.append(data.make_trajectory())
+        return trajSets
+
 
 def main():
     '''
@@ -153,10 +161,12 @@ def main():
     dp.collect_files()
     dp.only_data_files()
     dp.read_files_to_obj()
-    all_data_samples = dp._data_samples.get_data_samples()
-    print(all_data_samples.get('-03'))
-    print(all_data_samples.get('-03').get_instances())
-    print(all_data_samples.get('-03').get_instances()[0].get_data())
+    dp.make_set_of_trajectories()
+
+    # all_data_samples = dp._data_samples.get_data_samples()
+    # print(all_data_samples.get('-03'))
+    # print(all_data_samples.get('-03').get_instances())
+    # print(all_data_samples.get('-03').get_instances()[0].get_data())
     # dp.print_data(2)
 
 
