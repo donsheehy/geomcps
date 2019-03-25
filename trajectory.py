@@ -13,6 +13,9 @@ class Trajectory:
 
     def duration(self):
         return self.pts[-1].t - self.pts[0].t
+    
+    def __getitem__(self, item):
+        return self.pts[item]
 
     def __iter__(self):
         return iter(self.pts)
