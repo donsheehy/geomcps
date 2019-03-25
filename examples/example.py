@@ -1,0 +1,3 @@
+import trajectory
+
+print("Okay")
