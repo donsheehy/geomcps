@@ -1,3 +1,6 @@
+import trajectory
+
+
 class DataSamples:
 
     def __init__(self):
@@ -20,6 +23,12 @@ class DataSamples:
         '''
         return self._data_samples
 
+    def make_trajectories(self):
+        trajectories = []
+        for sample in self._data_samples:
+            trajectories.append(sample.make_trajectory())
+        return trajectories
+
 
 class DataSample:
 
@@ -37,6 +46,12 @@ class DataSample:
 
     def get_instances(self):
         return self._instances
+
+    def make_trajectory(self):
+        pts = []
+        for pt in self._instances:
+            pts.append(pt.get_data())
+        return trajectory.Trajectory(pts)
 
 
 class DataInstance:
