@@ -26,3 +26,6 @@ class Point:
 
     def __getitem__(self, item):
         return self.coords[item]
+
+    def __str__(self):
+        return "(" + str(self.t) + " " + str(self.coords) + ")"
