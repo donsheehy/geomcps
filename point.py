@@ -8,15 +8,12 @@ class Point:
 
     def eq_degree(self, other):
         return len(self) == len(other)
-    
+
     def dist_sq(self, other):
         return sum((a-b)**2 for a,b in zip(self, other))
 
     def dist(self, other):
         return math.sqrt(self.dist_sq(other))
-    
-    def __getitem__(self, item):
-        return self.coords[item]
 
     def __len__(self):
         return len(self.coords)
