@@ -1,16 +1,17 @@
 import os
-import datasample as ds
-import config
+import trajectory.datasample as ds
+import trajectory.config as config
+import sys
 
 
 class DataProcessor:
 
-    def __init__(self):
+    def __init__(self, directory):
         '''
         Initialize Data Processor objects. Declare class-wide variables.
         Adding input for directory to facilitate unit testing.
         '''
-        self._directory = ""
+        self._directory = directory
         self._data = []
         self._ext = ""
         self._track_folder_name = 0
@@ -26,8 +27,11 @@ class DataProcessor:
         '''
         Get configuration from config file.
         '''
-        res = config.read_config()
-        self._directory = os.fspath(res[0][:-1])
+        # curDir = os.getcwd()
+        # os.chdir(self._directory)
+        filename = os.path.join(self._directory, '.config')
+        res = config.read_config(filename)
+        # self._directory = os.fspath(res[0][:-1])
         ext = res[1][:-1]
         if ext[0] == ".":
             ext = ext[1:]
@@ -38,6 +42,7 @@ class DataProcessor:
             self._debugMode = False
         else:
             self._debugMode = True
+        # os.chdir(curDir)
 
     def get_file_directory(self):
         return self._directory
@@ -77,10 +82,10 @@ class DataProcessor:
         file_num = 0
         for file in self._fileList:
             if self._track_folder_name:
-                self._folder = file.split(os.sep[-2])
+                self._folder = file.split(os.sep)[-2]
             if self._track_file_name:
                 tmpfile = file.split(os.sep)[-1]
-                self._file = tmpfile.split(os.extsep[0])
+                self._file = tmpfile.split(os.extsep)[0]
             self.read_file_to_obj(file, file_num)
             file_num += 1
 
@@ -157,7 +162,8 @@ def main():
     Sequence through the process of instantiating a data processor and
     importing data from the relevant computer directory
     '''
-    dp = DataProcessor()
+    directory = sys.argv[1]
+    dp = DataProcessor(directory)
     dp.collect_files()
     dp.only_data_files()
     dp.read_files_to_obj()

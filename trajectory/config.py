@@ -1,4 +1,8 @@
+import os
+
+
 def write_config():
+    print(os.getcwd())
     top = input("Top folder: ")
     ext = input("Data file extension: ")
     meta1 = yn2tf(input("Save folder names for metadata? Y/N: "))
@@ -33,8 +37,8 @@ def yn2tf(i):
     return 't'
 
 
-def read_config():
-    f = open(".config")
+def read_config(filename):
+    f = open(filename)
     top = f.readline()
     if top == "":
         f.close()
