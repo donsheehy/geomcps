@@ -1,6 +1,6 @@
 import math
-from point import Point
-from trajectory import Trajectory
+from trajectory.point import Point
+from trajectory.trajectory import Trajectory
 
 
 # The basic 1-Dimensional case of dynamic time warping used in the independent DTW function

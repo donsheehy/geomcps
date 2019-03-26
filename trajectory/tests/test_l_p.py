@@ -1,6 +1,6 @@
 import unittest
-from point import Point
-from trajectory import Trajectory
+from trajectory.point import Point
+from trajectory.trajectory import Trajectory
 
 class TestLp(unittest.TestCase):
     def testL_one_simple(self):
