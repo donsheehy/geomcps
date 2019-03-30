@@ -1,6 +1,5 @@
 import numpy
-from trajectory.point import Point
-from trajectory.trajectory import Trajectory
+import scipy.linalg as scipy_linalg
 
 # Assumed input is an array of n > 1 trajectories
 # Output is then the first n points in the dimension specified (default is 2)
@@ -27,14 +26,25 @@ def mds(trajs, outputDim = 2):
     for i in range(n):
         for j in range(n):
             res[i][j] = -0.5 * res[i][j]
-    eVectors = numpy.linalg.eig(res)[1].tolist()
-    pCoords = []
-    for i in range(n):
-        pCoords.append([])
+    valsAndVec = numpy.linalg.eig(res)
+    eVals = valsAndVec[0].tolist()
+    eVecs = valsAndVec[1].tolist()
+    DVals = []
+    for i in range(outputDim):
+        DVals.append([])
         for j in range(outputDim):
-            pCoords[i].append(eVectors[i][j])
-    print(pCoords)
-    return pCoords
+            if i == j:
+                DVals[i].append(eVals[i])
+            else:
+                DVals[i].append(0)
+    DVals = scipy_linalg.fractional_matrix_power(DVals, 0.5)
+    DVecs = []
+    for i in range(outputDim):
+        DVecs.append([])
+        for j in range(outputDim):
+            DVecs[i].append(eVecs[i][j])
+    coords = numpy.matmul(DVecs, DVals).tolist()
+    return coords
 
 
 def squareL2(f, g):
