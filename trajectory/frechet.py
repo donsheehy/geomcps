@@ -342,33 +342,3 @@ def getMatrixDeterminant(m):
     for c in range(len(m)):
         determinant += ((-1)**c)*m[0][c]*getMatrixDeterminant(getMatrixMinor(m,0,c))
     return determinant
-
-
-
-
-
-if __name__ == "__main__":
-# parallel line example
-    t1 = Trajectory([Point([10,3]), Point([9,3]), Point([1,3]), Point([0,3])])
-    t2 = Trajectory([Point([10,5]), Point([4,5]), Point([2,5]), Point([0,5])])
-    f4 = Frechet(t1, t2)
-    print(f4.dist())
-    #print(f4.eps)
-    # eps contains the squares of the critical values
-
-# unit box example
-    tin1, tin2 = [], []
-    for x in range(2):
-        tin1.append(Point([x % 2, x % 2]))
-        tin1.append(Point([(x + 1) % 2, x % 2]))
-        tin2.append(Point([x % 2, x % 2]))
-        tin2.append(Point([(x+1) % 2, x % 2]))
-    for x in range(2, 4):
-        tin1.append(Point([x % 2, x % 2]))
-        tin1.append(Point([(x + 1) % 2, x % 2]))
-    tin1.append(Point([0, 0]))
-    tin2.append(Point([0, 0]))
-    t1, t2 = Trajectory(tin1), Trajectory(tin2)
-    f5 = Frechet(t1, t2)
-    print(f5.dist())
-    #print(f5.eps)
