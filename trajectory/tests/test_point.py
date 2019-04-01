@@ -21,9 +21,9 @@ class TestLp(unittest.TestCase):
         p2 = Point(coords2)
         p3 = Point(coords3)
         p4 = Point(coords4)
-        self.assertEqual(p1.sq_dist(p2), 676.0)
-        self.assertEqual(p1.sq_dist(p1), 0.0)
-        self.assertEqual(p3.sq_dist(p4), 25.0)
+        self.assertEqual(p1.dist_sq(p2), 676.0)
+        self.assertEqual(p1.dist_sq(p1), 0.0)
+        self.assertEqual(p3.dist_sq(p4), 25.0)
 
     def test_2D_point_dist(self):
         coords1 = [-7, -4]
@@ -58,9 +58,9 @@ class TestLp(unittest.TestCase):
         p2 = Point(coords2, 0)
         p3 = Point(coords3, 0)
         p4 = Point(coords4, 0)
-        self.assertEqual(p1.sq_dist(p2), 65)
-        self.assertEqual(p1.sq_dist(p1), 0.0)
-        self.assertEqual(p3.sq_dist(p4), 105)
+        self.assertEqual(p1.dist_sq(p2), 65)
+        self.assertEqual(p1.dist_sq(p1), 0.0)
+        self.assertEqual(p3.dist_sq(p4), 105)
 
     def test_3D_point_dist(self):
         coords1 = [-1, 2, 3]
@@ -90,8 +90,6 @@ class TestLp(unittest.TestCase):
         self.assertFalse(p1.eq_degree(p4))
         self.assertFalse(p2.eq_degree(p3))
         self.assertFalse(p2.eq_degree(p4))
-
-    def test_point_
 
 if __name__ == '__main__':
     unittest.main()
