@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import random
 
-# Plots an any number of trajectories inputted in a 2D plane
+# Plots any number of trajectories inputted in a 2D plane
 def draw(*args):
     count = 0
     for T in args:
