@@ -1,51 +1,78 @@
-import numpy
-import scipy.linalg as scipy_linalg
+import numpy as np
+import scipy.linalg as slinalg
+from point import Point
 
-# Assumed input is an array of n > 1 trajectories
-# Output is then the first n points in the dimension specified (default is 2)
-# The given dimension can be at most the number of given trajectories
-def mds(trajs, outputDim = 2):
-    n = len(trajs)
-    if (outputDim > n):
-        raise ValueError("Output Dimension Is Larger Than Trajectory List")
+# Input is a list of n > 1 "trajectories", a distance function/metric
+# Returns a tuple with the first element being the list of eigen-values and the second being a list containing the eigen-vectors
+# (both sorted in order of corresponding eigen-value) of the Gram Matrix B = -0.5 * C * D2 * C where D2 is the squared distance matrix between the "trajectories"
+def gramMatrixDecomp(L1, func, shouldSort = False):
+    n = len(L1)
     D2 = []
     for i in range(n):
         D2.append([])
         for j in range(n):
-            D2[i].append(squareL2(trajs[i], trajs[j]))
-    J = []
-    for i in range(n):
-        J.append([])
-        for j in range(n):
-            if i == j:
-                J[i].append(1-(1.0/n))
+            # if i == j:
+            #     D2[i].append(0)
+            if i <= j:
+                D2[i].append(func(L1[i], L1[j]))
             else:
-                J[i].append(-(1.0/n))
-    res = numpy.matmul(D2, J)
-    res = numpy.matmul(J, res)
-    for i in range(n):
-        for j in range(n):
-            res[i][j] = -0.5 * res[i][j]
-    valsAndVec = numpy.linalg.eig(res)
-    eVals = valsAndVec[0].tolist()
-    eVecs = valsAndVec[1].tolist()
-    DVals = []
-    for i in range(outputDim):
-        DVals.append([])
-        for j in range(outputDim):
-            if i == j:
-                DVals[i].append(eVals[i])
-            else:
-                DVals[i].append(0)
-    DVals = scipy_linalg.fractional_matrix_power(DVals, 0.5)
-    DVecs = []
-    for i in range(outputDim):
-        DVecs.append([])
-        for j in range(outputDim):
-            DVecs[i].append(eVecs[i][j])
-    coords = numpy.matmul(DVecs, DVals).tolist()
-    return coords
+                D2[i].append(D2[j][i])
+
+    # D2 = [[0, 3.1416, 0.7854, 1.5708],
+    #     [3.1416, 0, 2.3562, 1.5708],
+    #     [0.7854, 2.3562, 0, 2.3562],
+    #     [1.5708, 1.5708, 2.3562, 0]]
+    # n = len(D2[0])
+
+    D2 = np.asarray(D2)
+    C = np.identity(n) - (1./n) * np.ones((n, n))
+    B = (-1./2) * np.matmul(C, np.matmul(D2, C))
+    ePair = np.linalg.eig(B)
+    eVals = ePair[0]
+    eVecs = np.matrix.transpose(ePair[1])
+    if shouldSort:
+        zipped = zip(eVals, eVecs)
+        sorted = [[a, b] for a, b in zip(eVals, eVecs)]
+        sorted.sort(key=lambda x: x[0])
+        eVals = np.asarray([x[0] for x in sorted])
+        eVecs = np.asarray([x[1] for x in sorted])
+    return (eVals, eVecs)
+
+# Input is a list of n > 1 "trajectories", a distance function/metric and the desired output dimension
+# Returns a list of points in the desired dimensioned scaled using the classical MDS algorithm
+def multidimScale(L1, func, dim):
+    n = len(L1)
+    if dim > n:
+        raise ValueError("Output Dimension Is Larger Than Trajectory List")
+    ePair = gramMatrixDecomp(L1, func)
+    # print(ePair)
+    eVals = np.ndarray.tolist(ePair[0])
+    print(eVals)
+    eVecs = np.ndarray.tolist(ePair[1])
+    # Get rid of negative eigen-values and corresponding vectors
+    for i in range(len(eVals)):
+        if type(eVals[n - i - 1]) is complex or eVals[n - i - 1] < 0:
+            del eVals[n-i-1]
+            del eVecs[n-i-1]
+    if len(eVals) < dim:
+        raise ValueError("Too many complex eigenvectors")
+    eValMatrix = np.identity(dim)
+    eVecs = np.asarray(eVecs)
+    for i in range(dim):
+        eValMatrix[i][i] = eVals[i]
+    points = np.matmul(eVecs[:,:dim], slinalg.fractional_matrix_power(eValMatrix, 0.5))
+    points = np.ndarray.tolist(points)
+    pts = [Point(y) for y in points]
+    return pts
 
 
 def squareL2(f, g):
     return sum(a.dist_sq(b) for a, b in zip(f, g))
+
+def dist(a, b):
+    return abs(a-b)
+
+# gramMatrixDecomp([1], dist)
+x = multidimScale([1, 2, -2, 1, 15, 7, 18, 9], dist, 2)
+for y in x:
+    print(y)
