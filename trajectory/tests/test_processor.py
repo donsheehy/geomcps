@@ -60,13 +60,6 @@ class TestDataProcessor(unittest.TestCase):
     def test_get_file_directory(self):
         self.assertEqual(self._dp._directory, self._dp.get_file_directory())
 
-    # def test_read_files_to_object(self):
-    #     # read files to object depends on other functions
-    #     self._dp.collect_files()
-    #     self._dp.only_data_files()
-    #     print(self._dp._data_samples)
-    #     self.assertEqual('lala', self._dp._data_samples)
-
     def nextDataFile(self):
         files = []
         for i in range(3):
@@ -95,6 +88,9 @@ class TestDataProcessor(unittest.TestCase):
         f.close()
         return {file: data}
 
+    def fullDict(self):
+        pass
+
     def test_get_data_samples(self):
         self._dp.collect_files()
         self._dp.only_data_files()
@@ -102,7 +98,7 @@ class TestDataProcessor(unittest.TestCase):
                          self._dp.get_data_samples_obj())
 
     # Make some subtests for these
-    def test_get_data_samples_sub(self):
+    def ttest_get_data_samples_sub(self):
         self._dp.collect_files()
         self._dp.only_data_files()
         self._dp.read_files_to_obj()
@@ -124,6 +120,10 @@ class TestDataProcessor(unittest.TestCase):
         self.assertEqual(len(trajSets), 6)
 
     # make some subtests for these
+    def ttest_make_set_of_trajectories_sub(self):
+        self._dp.collect_files()
+        self._dp.only_data_files()
+        self._dp.read_files_to_obj()
 
 
 def pretest():
