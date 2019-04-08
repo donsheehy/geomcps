@@ -1,4 +1,5 @@
-import trajectory
+import trajectory.trajectory as trajectory
+# import trajectory
 
 
 class DataSamples:
@@ -9,12 +10,20 @@ class DataSamples:
         '''
         self._data_samples = {}   # dict of data samples
 
+    def initDataSamples(self, name):
+        '''create new data samples object; list of length 1'''
+        ds = DataSample(name)
+        self._data_samples.update({name: [ds]})
+        return ds
+
     def newDataSample(self, name):
         '''
         Add new Data Sample objects.
         '''
         ds = DataSample(name)
-        self._data_samples.update({name: ds})
+        toUpdate = self._data_samples[name]
+        toUpdate.append(ds)
+        self._data_samples.update({name: toUpdate})
         return ds
 
     def get_data_samples(self):
@@ -26,7 +35,10 @@ class DataSamples:
     def make_trajectories(self):
         trajectories = []
         for sample in self._data_samples:
-            trajectories.append(sample.make_trajectory())
+            sample_list = self._data_samples[sample]  # sample object
+            for instance in sample_list:
+                # data = sample_obj[instance]
+                trajectories.append(instance.make_trajectory())
         return trajectories
 
 
@@ -37,11 +49,11 @@ class DataSample:
         Initialize Data Sample objects. Declare class-wide variables.
         '''
         self._name = name
-        self._instances = []
+        self._instances = {}
 
-    def add_instance(self):
+    def add_instance(self, instance_name):
         newInstance = DataInstance(self)
-        self._instances.append(newInstance)
+        self._instances.update({instance_name: newInstance})
         return newInstance
 
     def get_instances(self):
@@ -50,7 +62,8 @@ class DataSample:
     def make_trajectory(self):
         pts = []
         for pt in self._instances:
-            pts.append(pt.get_data())
+            instance = self._instances[pt]
+            pts.append(instance.get_data())
         return trajectory.Trajectory(pts)
 
 

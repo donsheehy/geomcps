@@ -1,5 +1,7 @@
 import os
 import trajectory.datasample as ds
+# import datasample as ds
+# import config as config
 import trajectory.config as config
 import sys
 
@@ -99,14 +101,14 @@ class DataProcessor:
         # if file_num == 0:
         #     once = True
         full_file_name = os.path.join(self._directory, file_name)
-        dsname = self.name_handling()
+        dsname = self.sample_name()
         if dsname == '':
             dsname = file_num
         ds_dict = self._data_samples.get_data_samples()
         if (dsname in ds_dict):
-            dsamp = ds_dict[dsname]
-        else:
             dsamp = self._data_samples.newDataSample(dsname)
+        else:
+            dsamp = self._data_samples.initDataSamples(dsname)
         f = open(full_file_name)
         for line in f:
             line_data = []
@@ -123,19 +125,28 @@ class DataProcessor:
             for i in range(len(line_data)):
                 line_data[i] = float(line_data[i])
 
-            di = dsamp.add_instance()
+            di = dsamp.add_instance(self.instance_name())
             di.add_data(line_data)
         f.close()
 
-    def name_handling(self):
-        a = self._folder[:self._track_folder_name]
-        b = self._file[:self._track_file_name]
-        b = ''.join(b)
-        tmp = b.split('-')
-        b = tmp[0]
-        dsname = [a, b]
+    def sample_name(self):
+        return self._folder[:self._track_folder_name]
+
+    def instance_name(self):
+        b1 = self._folder[:self._track_folder_name]
+        b2 = self._file[:self._track_file_name]
+        b2 = ''.join(b2)
+        tmp = b2.split('-')
+        b2 = tmp[0]
+        dsname = [b1, b2]
         dsname = '-'.join(dsname)
         return dsname
+
+    def get_data_samples_obj(self):
+        return self._data_samples
+
+    def get_data_samples_dict(self):
+        return self._data_samples.get_data_samples()
 
     def print_data(self, data_id):
         '''
@@ -150,11 +161,7 @@ class DataProcessor:
             print("\n", end="")
 
     def make_set_of_trajectories(self):
-        trajSets = []
-        dict = self._data_samples.get_data_samples()
-        for data in dict.values():
-            trajSets.append(data.make_trajectory())
-        return trajSets
+        return self._data_samples.make_trajectories()
 
 
 def main():
@@ -162,12 +169,14 @@ def main():
     Sequence through the process of instantiating a data processor and
     importing data from the relevant computer directory
     '''
-    directory = sys.argv[1]
+    # directory = sys.argv[1]
+    directory = os.path.join(os.getcwd(), 'examples', 'example_data')
     dp = DataProcessor(directory)
     dp.collect_files()
     dp.only_data_files()
     dp.read_files_to_obj()
-    dp.make_set_of_trajectories()
+    print(dp.get_data_samples_obj().make_trajectories())
+    print(dp.make_set_of_trajectories())
 
     # all_data_samples = dp._data_samples.get_data_samples()
     # print(all_data_samples.get('-03'))
