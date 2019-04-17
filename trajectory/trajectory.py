@@ -19,6 +19,3 @@ class Trajectory:
 
     def __iter__(self):
         return iter(self.pts)
-
-    def __getitem__(self, item):
-        return self.pts[item]
