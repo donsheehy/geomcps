@@ -1,5 +1,5 @@
-# import trajectory.trajectory as trajectory
-import trajectory
+import trajectory.trajectory as trajectory
+# import trajectory
 
 
 class DataSamples:

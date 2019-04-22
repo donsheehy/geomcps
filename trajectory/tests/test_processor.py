@@ -2,7 +2,7 @@ import unittest
 import os
 # import sys
 import trajectory.dataprocessor as dataprocessor
-import trajectory.datasample as ds
+# import trajectory.datasample as ds
 
 
 class TestDataProcessor(unittest.TestCase):
@@ -75,18 +75,23 @@ class TestDataProcessor(unittest.TestCase):
                 else:
                     file = "run2.csv"
                 files.append(os.path.join(subdir, file))
-        for file in files:
-            fullFile = os.path.join(os.curdir(),
-                                    'examples',
-                                    'example_data',
-                                    file)
-            yield self.file2dict(fullFile, file)
+        return files
+        # for file in files:
+        #     fullFile = os.path.join(os.curdir(),
+        #                             'examples',
+        #                             'example_data',
+        #                             file)
+        #     yield self.file2dict(fullFile, file)
 
-    def file2dict(self, fullFile, file):
+    def file2data(self, file):
+        fullFile = os.path.join(os.curdir,
+                                'examples',
+                                'example_data',
+                                file)
         f = open(fullFile, 'r')
         data = f.readlines()
         f.close()
-        return {file: data}
+        return data
 
     def fullDict(self):
         pass
@@ -98,24 +103,51 @@ class TestDataProcessor(unittest.TestCase):
                          self._dp.get_data_samples_obj())
 
     # Make some subtests for these
-    def ttest_get_data_samples_sub(self):
+    # def test_get_data_samples_sub(self):
+    #     self._dp.collect_files()
+    #     self._dp.only_data_files()
+    #     self._dp.read_files_to_obj()
+    #     files = self.nextDataFile()
+    #     for (key, samples) in self._dp.get_data_samples_dict().items():
+    #         for sample in samples:
+    #             for line in sample.get_instances():
+    #                 for nextFile in files:
+    #                     with self.subTest(sample=sample,
+    #                                       line=line,
+    #                                       nextFile=nextFile):
+    #                         self.assertEqual(sample.get_instances()[line],
+    #                                          nextFile[line])
+
+    def test_get_data_samples_subsub(self):
+        self.setData()
+        # files = self.nextDataFile()
+        # loop through Samples
+        for key in self._dp.get_data_samples_dict():  # key = sample_letter
+            # loop through runs
+            for i in range(2):
+                run = "run" + str(i + 1) + ".csv"
+                file = os.path.join(key, run)
+                data = self.file2data(file)
+                # loop through lines of data
+                for line in range(len(data)):
+                    sampleObj = self._dp.get_data_samples_dict().get(key)[i]
+                    instanceObjs = sampleObj.get_instances()
+                    for j in instanceObjs:
+                        instanceObj = instanceObjs.get(j)
+                        traj = instanceObj.get_data()
+                        savedData = traj[line]
+                        with self.subTest(sample=key,
+                                          line=line,
+                                          run=run):
+                            self.assertEqual(line, savedData)
+
+    def setData(self):
         self._dp.collect_files()
         self._dp.only_data_files()
         self._dp.read_files_to_obj()
-        for (key, samples) in self._dp.get_data_samples_dict().items():
-            for sample in samples:
-                for line in sample.get_instances():
-                    nextFile = self.nextDataFile()
-                    with self.subTest(sample=sample,
-                                      line=line,
-                                      nextFile=nextFile):
-                        self.assertEqual(sample.get_instances()[line],
-                                         nextFile[line])
 
     def test_make_set_of_trajectories(self):
-        self._dp.collect_files()
-        self._dp.only_data_files()
-        self._dp.read_files_to_obj()
+        self.setData()
         trajSets = self._dp.make_set_of_trajectories()
         self.assertEqual(len(trajSets), 6)
 
