@@ -102,25 +102,8 @@ class TestDataProcessor(unittest.TestCase):
         self.assertEqual(self._dp._data_samples,
                          self._dp.get_data_samples_obj())
 
-    # Make some subtests for these
-    # def test_get_data_samples_sub(self):
-    #     self._dp.collect_files()
-    #     self._dp.only_data_files()
-    #     self._dp.read_files_to_obj()
-    #     files = self.nextDataFile()
-    #     for (key, samples) in self._dp.get_data_samples_dict().items():
-    #         for sample in samples:
-    #             for line in sample.get_instances():
-    #                 for nextFile in files:
-    #                     with self.subTest(sample=sample,
-    #                                       line=line,
-    #                                       nextFile=nextFile):
-    #                         self.assertEqual(sample.get_instances()[line],
-    #                                          nextFile[line])
-
     def test_get_data_samples_subsub(self):
         self.setData()
-        # files = self.nextDataFile()
         # loop through Samples
         for key in self._dp.get_data_samples_dict():  # key = sample_letter
             # loop through runs
@@ -132,14 +115,19 @@ class TestDataProcessor(unittest.TestCase):
                 for line in range(len(data)):
                     sampleObj = self._dp.get_data_samples_dict().get(key)[i]
                     instanceObjs = sampleObj.get_instances()
+                    instanceName = key + '-run' + str(i + 1)
                     for j in instanceObjs:
                         instanceObj = instanceObjs.get(j)
                         traj = instanceObj.get_data()
-                        savedData = traj[line]
+                        point = traj[line]
+                        pointString = []
+                        for coord in point:
+                            pointString.append(str(coord))
+                        pointString = ','.join(pointString)
                         with self.subTest(sample=key,
                                           line=line,
                                           run=run):
-                            self.assertEqual(line, savedData)
+                            self.assertEqual(data[line][:-1], pointString)
 
     def setData(self):
         self._dp.collect_files()
@@ -153,9 +141,7 @@ class TestDataProcessor(unittest.TestCase):
 
     # make some subtests for these
     def ttest_make_set_of_trajectories_sub(self):
-        self._dp.collect_files()
-        self._dp.only_data_files()
-        self._dp.read_files_to_obj()
+        self.setData()
 
 
 def pretest():

@@ -77,8 +77,8 @@ class DataInstance:
         self._instanceOf = dataSample   # keep track of what data this is
         self._data = []   # list of data
 
-    def add_data(self, data):
-        self._data += data
+    def add_point(self, data):
+        self._data.append(data)
 
     def get_data(self):
         return self._data

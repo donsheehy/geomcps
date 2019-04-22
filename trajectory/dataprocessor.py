@@ -110,6 +110,8 @@ class DataProcessor:
         else:
             dsamp = self._data_samples.initDataSamples(dsname)
         f = open(full_file_name)
+        # create an "instance" for the file
+        di = dsamp.add_instance(self.instance_name())
         for line in f:
             line_data = []
             if self._ext == 'csv':
@@ -124,9 +126,7 @@ class DataProcessor:
             # confirm all data is float
             for i in range(len(line_data)):
                 line_data[i] = float(line_data[i])
-
-            di = dsamp.add_instance(self.instance_name())
-            di.add_data(line_data)
+            di.add_point(line_data)
         f.close()
 
     def sample_name(self):
