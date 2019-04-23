@@ -1,8 +1,6 @@
 import unittest
 import os
-# import sys
 import trajectory.dataprocessor as dataprocessor
-# import trajectory.datasample as ds
 
 
 class TestDataProcessor(unittest.TestCase):
@@ -60,28 +58,10 @@ class TestDataProcessor(unittest.TestCase):
     def test_get_file_directory(self):
         self.assertEqual(self._dp._directory, self._dp.get_file_directory())
 
-    def nextDataFile(self):
-        files = []
-        for i in range(3):
-            for j in range(2):
-                if i == 0:
-                    subdir = "sample_a"
-                elif i == 1:
-                    subdir = "sample_b"
-                else:
-                    subdir = "sample_c"
-                if j == 0:
-                    file = "run1.csv"
-                else:
-                    file = "run2.csv"
-                files.append(os.path.join(subdir, file))
-        return files
-        # for file in files:
-        #     fullFile = os.path.join(os.curdir(),
-        #                             'examples',
-        #                             'example_data',
-        #                             file)
-        #     yield self.file2dict(fullFile, file)
+    def setData(self):
+        self._dp.collect_files()
+        self._dp.only_data_files()
+        self._dp.read_files_to_obj()
 
     def file2data(self, file):
         fullFile = os.path.join(os.curdir,
@@ -93,16 +73,13 @@ class TestDataProcessor(unittest.TestCase):
         f.close()
         return data
 
-    def fullDict(self):
-        pass
-
     def test_get_data_samples(self):
         self._dp.collect_files()
         self._dp.only_data_files()
         self.assertEqual(self._dp._data_samples,
                          self._dp.get_data_samples_obj())
 
-    def test_get_data_samples_subsub(self):
+    def test_get_data_samples_sub(self):
         self.setData()
         # loop through Samples
         for key in self._dp.get_data_samples_dict():  # key = sample_letter
@@ -115,7 +92,6 @@ class TestDataProcessor(unittest.TestCase):
                 for line in range(len(data)):
                     sampleObj = self._dp.get_data_samples_dict().get(key)[i]
                     instanceObjs = sampleObj.get_instances()
-                    instanceName = key + '-run' + str(i + 1)
                     for j in instanceObjs:
                         instanceObj = instanceObjs.get(j)
                         traj = instanceObj.get_data()
@@ -129,19 +105,39 @@ class TestDataProcessor(unittest.TestCase):
                                           run=run):
                             self.assertEqual(data[line][:-1], pointString)
 
-    def setData(self):
-        self._dp.collect_files()
-        self._dp.only_data_files()
-        self._dp.read_files_to_obj()
-
     def test_make_set_of_trajectories(self):
         self.setData()
         trajSets = self._dp.make_set_of_trajectories()
         self.assertEqual(len(trajSets), 6)
 
-    # make some subtests for these
-    def ttest_make_set_of_trajectories_sub(self):
+    def test_make_set_of_trajectories_sub(self):
         self.setData()
+        allTraj = self._dp.make_set_of_trajectories()
+        # loop through Samples
+        for k in range(3):  # key = sample_letter
+            # loop through runs
+            for i in range(2):
+                index = 2 * k + i
+                run = "run" + str(i + 1) + ".csv"
+                if k == 0:
+                    key = 'sample_a'
+                elif k == 1:
+                    key = 'sample_b'
+                else:
+                    key = 'sample_c'
+                file = os.path.join(key, run)
+                data = self.file2data(file)
+                data2 = []
+                for point in data:
+                    tmp = point[:-1].split(',')
+                    tmp2 = []
+                    for t in tmp:
+                        tmp2.append(float(t))
+                    data2.append(tmp2)
+                traj = allTraj[index][0]  # trajectories have pts property
+                with self.subTest(file=file,
+                                  index=index):
+                    self.assertEqual(data2, traj)
 
 
 def pretest():
