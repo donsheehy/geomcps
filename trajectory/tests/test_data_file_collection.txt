@@ -1,1 +1,0 @@
-C:\Users\sarah\Geomcps\examples\example_data\sample_a\run1.csv,C:\Users\sarah\Geomcps\examples\example_data\sample_a\run2.csv,C:\Users\sarah\Geomcps\examples\example_data\sample_b\run1.csv,C:\Users\sarah\Geomcps\examples\example_data\sample_b\run2.csv,C:\Users\sarah\Geomcps\examples\example_data\sample_c\run1.csv,C:\Users\sarah\Geomcps\examples\example_data\sample_c\run2.csv

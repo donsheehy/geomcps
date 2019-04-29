@@ -1,17 +1,35 @@
-# Geomcps
+# Trajectory
+Welcome to the trajectory package. This is to help visualize complex data structures and time warping.
 
-## Cool datasets
-* [Repository of miscellaneous datasets](https://cooldatasets.com/)
-* [More miscellaneous datasets, including very large ones](https://www.springboard.com/blog/free-public-data-sets-data-science-project/)
-* [GitHub list of public datasets](https://github.com/awesomedata/awesome-public-datasets)
-    - [World Database of Happiness](https://www.worlddatabaseofhappiness.eur.nl/trendnat/framepage.htm)
-    - [US General Social Survey](https://gssdataexplorer.norc.org/pages/show?page=gss%2Fgss_data)
-    - More stuff: [Our World in Data](https://ourworldindata.org/)
-* [NASA Data Portal](https://data.nasa.gov/)
-    * [VEMAP 1: Georeferencing](https://data.nasa.gov/dataset/VEMAP-1-Georeferencing/6j3t-gxbn): An integrated input data set for ecosystem and vegetation modeling for the conterminous United States: Georeferencing
-    * [Vegetation Drought Response Index (VegDRI)](https://cmr.earthdata.nasa.gov/search/concepts/C1220567914-USGS_LTA.html): The VegDRI calculations integrate satellite-based observations of vegetation conditions, climate data, and other biophysical information such as land cover/land use type, soil characteristics, and ecological setting. The VegDRI maps that are produced deliver continuous geographic coverage over large areas, and have inherently finer spatial detail (1-km2 resolution) than other commonly available drought indicators such as the U.S. Drought Monitor.
-    * [Search I like](https://data.nasa.gov/browse?limitTo=href&tags=topography)
-* Natural Disasters
-    - [EM-DAT – The International Disaster Database](https://www.emdat.be/) - Raw data has to be requested.
-    - [Natural Hazards Data – U.S. National Oceanic and Atmospheric Administration's National Geophysical Data Center (NGDC)](http://www.ngdc.noaa.gov/hazard/hazards.shtml)
-    - [Significant Volcanic Eruption Database](https://www.ngdc.noaa.gov/nndc/servlet/ShowDatasets?dataset=102557&search_look=50&display_look=50)
+## Config File
+To use this package, you will need to add a .config file to the folder where your data reside. Create the config file by running config.py. The structure of the config file is as follows.
+
+### Sample config
+If running config.py doesn't work, or you want the dirty details, here's what goes into the config file:
+```
+.csv
+64
+64
+```
+The first line represents the extension of the data files. These extensions are currently supported: csv, tsv. The second and third lines represent how much metadata you'd like to save for each file - the idea is to name your data as you go so that you can find it again if you choose to extend this package.
+
+## Making Pretty Pictures
+
+## Internal Data structures
+
+**Samples** Object: a dictionary of samples, paired with their names
+```
+{sample_a:[run1, run2], sample_b:[run1, run2]...}
+```
+**Sample** Object: a dictionary with runs assigned to the data
+```
+sample._instances = {samplea_run1: <instance holding points>, samplea_run2: <instance holding points>}
+```
+
+**Instance** Object: a list of points.
+```
+instance = [[t0, xCoord, yCoord],[t1, xCoord, yCoord],[t2, xCoord, yCoord]]
+```
+
+**Trajectory** Object: a list of point objects.
+**Point** Object: the value of each dimension at some time.

@@ -178,12 +178,6 @@ def main():
     print(dp.get_data_samples_obj().make_trajectories())
     print(dp.make_set_of_trajectories())
 
-    # all_data_samples = dp._data_samples.get_data_samples()
-    # print(all_data_samples.get('-03'))
-    # print(all_data_samples.get('-03').get_instances())
-    # print(all_data_samples.get('-03').get_instances()[0].get_data())
-    # dp.print_data(2)
-
 
 if __name__ == '__main__':
     main()
