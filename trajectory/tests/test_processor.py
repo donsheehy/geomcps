@@ -135,9 +135,10 @@ class TestDataProcessor(unittest.TestCase):
                         tmp2.append(float(t))
                     data2.append(tmp2)
                 traj = allTraj[index][0]  # trajectories have pts property
-                with self.subTest(file=file,
-                                  index=index):
-                    self.assertEqual(data2, traj)
+                for i in traj:
+                    with self.subTest(file=file,
+                                      index=index):
+                        self.assertEqual(data2[i], traj)
 
 
 def pretest():
