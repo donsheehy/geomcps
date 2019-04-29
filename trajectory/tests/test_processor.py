@@ -26,7 +26,7 @@ class TestDataProcessor(unittest.TestCase):
     def test_right_extension(self):
         self.assertEqual(self._dp.get_file_extension(), "csv")
 
-    def ttest_collect_all_files(self):
+    def test_collect_all_files(self):
         openme = os.path.join(self.return_topDir(),
                               "trajectory",
                               "tests",
@@ -38,7 +38,7 @@ class TestDataProcessor(unittest.TestCase):
         # self._dp.collect_files()
         self.assertEqual(self._dp.get_files(), file_collection)
 
-    def ttest_collect_data_files(self):
+    def test_collect_data_files(self):
         openme = os.path.join(self.return_topDir(),
                               "trajectory",
                               "tests",

@@ -1,4 +1,5 @@
 import trajectory.trajectory as trajectory
+from trajectory.point import Point
 # import trajectory
 
 
@@ -38,7 +39,7 @@ class DataSamples:
             sample_list = self._data_samples[sample]  # sample object
             for instance in sample_list:
                 # data = sample_obj[instance]
-                trajectories.append(instance.make_trajectory())
+                trajectories.append(instance.make_sample_trajectories())
         return trajectories
 
 
@@ -59,10 +60,10 @@ class DataSample:
     def get_instances(self):
         return self._instances
 
-    def make_trajectory(self):
-        pts = []
-        for pt in self._instances:
-            instance = self._instances[pt]
+    def make_sample_trajectories(self):
+        run = []
+        for run in self._instances:
+            instance = self._instances[run]
             pts.append(instance.get_points())
         return trajectory.Trajectory(pts)
 
