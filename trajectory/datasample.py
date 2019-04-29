@@ -63,7 +63,7 @@ class DataSample:
         pts = []
         for pt in self._instances:
             instance = self._instances[pt]
-            pts.append(instance.get_data())
+            pts.append(instance.get_points())
         return trajectory.Trajectory(pts)
 
 
@@ -76,9 +76,18 @@ class DataInstance:
         '''
         self._instanceOf = dataSample   # keep track of what data this is
         self._data = []   # list of data
+        self._points = []  # list of point objects
 
     def add_point(self, data):
+        self.make_pt_obj(data)
         self._data.append(data)
+
+    def make_pt_obj(self, data):
+        pt = Point(data[1:], data[0])
+        self._points.append(pt)
+
+    def get_points(self):
+        return self._points
 
     def get_data(self):
         return self._data

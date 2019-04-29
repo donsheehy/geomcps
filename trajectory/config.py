@@ -41,14 +41,15 @@ def yn2tf(i):
 
 def read_config(filename):
     f = open(filename)
-    top = f.readline()
-    if top == "":
-        f.close()
-        write_config()
-        read_config()
-    result = []
-    result.append(top)
-    result.append(f.readlines())
+    result = f.readlines()
+    # top = f.readline()
+    # if top == "":
+    #     f.close()
+    #     write_config()
+    #     read_config()
+    # result = []
+    # result.append(top)
+    # result.append(f.readlines())
     f.close()
     return result
 

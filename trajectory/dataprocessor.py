@@ -23,7 +23,13 @@ class DataProcessor:
         self._folder = ''
         self._file = ''
         self._data_samples = ds.DataSamples()
+        self.runTheThings()
+
+    def runTheThings(self):
         self.read_config()
+        self.collect_files()
+        self.only_data_files()
+        self.read_files_to_obj()
 
     def read_config(self):
         '''
@@ -35,8 +41,8 @@ class DataProcessor:
         if ext[0] == ".":
             ext = ext[1:]
         self._ext = ext
-        self._track_folder_name = int(res[1][:-1])
-        self._track_file_name = int(res[2][:-1])
+        self._track_folder_name = int(''.join(res[1][:-1]))
+        self._track_file_name = int(''.join(res[2][:-1]))
         if res[3][:-1] == 't':
             self._debugMode = True
         else:
@@ -163,10 +169,10 @@ def main():
     '''
     directory = sys.argv[1]
     # directory = os.path.join(os.getcwd(), 'examples', 'example_data')
-    dp = DataProcessor(directory)
-    dp.collect_files()
-    dp.only_data_files()
-    dp.read_files_to_obj()
+    # dp = DataProcessor(directory)
+    # dp.collect_files()
+    # dp.only_data_files()
+    # dp.read_files_to_obj()
     print(dp.get_data_samples_obj().make_trajectories())
     print(dp.make_set_of_trajectories())
 
