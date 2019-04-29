@@ -3,7 +3,7 @@ import trajectory.datasample as ds
 # import datasample as ds
 # import config as config
 import trajectory.config as config
-# import sys
+import sys
 
 
 class DataProcessor:
@@ -29,22 +29,18 @@ class DataProcessor:
         '''
         Get configuration from config file.
         '''
-        # curDir = os.getcwd()
-        # os.chdir(self._directory)
         filename = os.path.join(self._directory, '.config')
         res = config.read_config(filename)
-        # self._directory = os.fspath(res[0][:-1])
-        ext = res[1][:-1]
+        ext = res[0][:-1]
         if ext[0] == ".":
             ext = ext[1:]
         self._ext = ext
-        self._track_folder_name = int(res[2][:-1])
-        self._track_file_name = int(res[3][:-1])
-        if res[4][:-1] == 'f':
-            self._debugMode = False
-        else:
+        self._track_folder_name = int(res[1][:-1])
+        self._track_file_name = int(res[2][:-1])
+        if res[3][:-1] == 't':
             self._debugMode = True
-        # os.chdir(curDir)
+        else:
+            self._debugMode = False
 
     def get_file_directory(self):
         return self._directory
@@ -68,7 +64,6 @@ class DataProcessor:
         '''
         Restrict the files in the directory to those with the data extension
         '''
-        # print(self._fileList)
         newFileList = []
         for file in self._fileList:
             file_ext = file.split(os.extsep)
@@ -97,9 +92,6 @@ class DataProcessor:
         Pulls data into nested list. Each file becomes a first-level item,
         each line in the file becomes a list of the items on that line.
         '''
-        # once = False
-        # if file_num == 0:
-        #     once = True
         full_file_name = os.path.join(self._directory, file_name)
         dsname = self.sample_name()
         if dsname == '':
@@ -169,8 +161,8 @@ def main():
     Sequence through the process of instantiating a data processor and
     importing data from the relevant computer directory
     '''
-    # directory = sys.argv[1]
-    directory = os.path.join(os.getcwd(), 'examples', 'example_data')
+    directory = sys.argv[1]
+    # directory = os.path.join(os.getcwd(), 'examples', 'example_data')
     dp = DataProcessor(directory)
     dp.collect_files()
     dp.only_data_files()

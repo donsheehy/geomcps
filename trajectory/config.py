@@ -2,8 +2,10 @@ import os
 
 
 def write_config():
-    print(os.getcwd())
+    # print(os.getcwd())
     top = input("Top folder: ")
+    topPath = os.path(top)
+    os.chdir(topPath)
     ext = input("Data file extension: ")
     meta1 = yn2tf(input("Save folder names for metadata? Y/N: "))
     if meta1 == 't':
@@ -20,7 +22,7 @@ def write_config():
     else:
         filechars = 0
     mode = yn2tf(input("Use debug mode? Y/N: "))
-    stream_to_write = '\n'.join([top, ext, str(folderchars), str(filechars), mode])
+    stream_to_write = '\n'.join([ext, str(folderchars), str(filechars), mode])
 
     try:
         f = open(".config", "wt")
@@ -46,8 +48,7 @@ def read_config(filename):
         read_config()
     result = []
     result.append(top)
-    for i in range(4):
-        result.append(f.readline())
+    result.append(f.readlines())
     f.close()
     return result
 
