@@ -9,10 +9,6 @@ class TestDTW(unittest.TestCase):
             [-3**(-0.5), 0, 0],
             [3**0.5/6, -0.5, 0], 
             [3**0.5/6, 0.5, 0]]
-        # draw.draw3D(x)
-        # pts = multidimScale(x, sqrDist, 2)
-        # tr = Trajectory(pts)
-        # draw.draw(tr)
 
 
 if __name__ == '__main__':
