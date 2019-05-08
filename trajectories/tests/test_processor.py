@@ -25,7 +25,7 @@ class TestDataProcessor(unittest.TestCase):
 
     def test_collect_all_files(self):
         openme = os.path.join(self.return_topDir(),
-                              "trajectory",
+                              "trajectories",
                               "tests",
                               "test_file_collection.txt")
         f = open(openme, 'r')
@@ -42,7 +42,7 @@ class TestDataProcessor(unittest.TestCase):
 
     def test_collect_data_files(self):
         openme = os.path.join(self.return_topDir(),
-                              "trajectory",
+                              "trajectories",
                               "tests",
                               "test_data_file_collection.txt")
         f = open(openme, 'r')
