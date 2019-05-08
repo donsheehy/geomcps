@@ -15,6 +15,9 @@ class Point:
     def dist(self, other):
         return math.sqrt(self.dist_sq(other))
 
+    def time(self):
+        return self.t
+
     def __len__(self):
         return len(self.coords)
 

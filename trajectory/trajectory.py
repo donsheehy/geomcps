@@ -1,6 +1,7 @@
 class Trajectory:
     def __init__(self, pts):
-        self.pts = list(pts)
+        # self.pts = list(pts)
+        self.pts = pts
 
     def resample(self, n):
         pass
@@ -13,7 +14,7 @@ class Trajectory:
 
     def duration(self):
         return self.pts[-1].t - self.pts[0].t
-    
+
     def __getitem__(self, item):
         return self.pts[item]
 

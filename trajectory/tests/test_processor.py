@@ -11,17 +11,14 @@ class TestDataProcessor(unittest.TestCase):
         return topDir
 
     def setUp(self):
-        exampleDir = os.path.join(self.return_topDir(),
-                                  'examples',
-                                  'example_data')
-        self._dp = dataprocessor.DataProcessor(exampleDir)
+        self._exampleDir = os.path.abspath(os.path.join(self.return_topDir(),
+                                                        'examples',
+                                                        'example_data'))
+        self._dp = dataprocessor.DataProcessor(self._exampleDir)
 
     def test_right_directory(self):
-        exampleDir = os.path.join(self.return_topDir(),
-                                  'examples',
-                                  'example_data')
-        self.assertEqual(self._dp.get_file_directory(),
-                         exampleDir)
+        self.assertEqual(os.path.abspath(self._dp.get_file_directory()),
+                         self._exampleDir)
 
     def test_right_extension(self):
         self.assertEqual(self._dp.get_file_extension(), "csv")
@@ -35,8 +32,13 @@ class TestDataProcessor(unittest.TestCase):
         file_collection = f.read()[:-1]
         file_collection = file_collection.split(',')
         f.close()
-        # self._dp.collect_files()
-        self.assertEqual(self._dp.get_files(), file_collection)
+        # reset file list
+        self._dp._fileList = []
+        self._dp.collect_files()
+        test_dp_files = self._dp.get_files()
+        for i in range(len(test_dp_files)):
+            with self.subTest(i=i):
+                self.assertEqual(test_dp_files[i], file_collection[i])
 
     def test_collect_data_files(self):
         openme = os.path.join(self.return_topDir(),
@@ -64,10 +66,7 @@ class TestDataProcessor(unittest.TestCase):
         self._dp.read_files_to_obj()
 
     def file2data(self, file):
-        fullFile = os.path.join(os.curdir,
-                                'examples',
-                                'example_data',
-                                file)
+        fullFile = os.path.join(self._exampleDir, file)
         f = open(fullFile, 'r')
         data = f.readlines()
         f.close()
@@ -111,7 +110,6 @@ class TestDataProcessor(unittest.TestCase):
         self.assertEqual(len(trajSets), 6)
 
     def test_make_set_of_trajectories_sub(self):
-        # self.setData()
         allTraj = self._dp.make_set_of_trajectories()
         # loop through Samples
         for k in range(3):  # key = sample_letter
@@ -134,11 +132,21 @@ class TestDataProcessor(unittest.TestCase):
                     for t in tmp:
                         tmp2.append(float(t))
                     data2.append(tmp2)
-                traj = allTraj[index][0]  # trajectories have pts property
-                for i in traj:
+                for m in range(len(allTraj[index][0])):
+                    tmpPt = allTraj[index][0].pts[m]
+                    tmpPtData = [tmpPt.time()]
+                    for coord in allTraj[index][0].pts[m]:
+                        tmpPtData.append(coord)
                     with self.subTest(file=file,
-                                      index=index):
-                        self.assertEqual(data2[i], traj)
+                                      index=index,
+                                      m=m):
+                        self.assertEqual(tmpPtData,
+                                         data2[m])
+                # traj = allTraj[index][0]  # trajectories have pts property
+                # for j in traj:
+                #     with self.subTest(file=file,
+                #                       index=index):
+                #         self.assertEqual(data2[index][0][0], j[0])
 
 
 def pretest():
