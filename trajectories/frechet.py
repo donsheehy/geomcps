@@ -1,6 +1,6 @@
 import math
-from point import Point
-from trajectory import Trajectory
+from trajectories.point import Point
+from trajectories.trajectory import Trajectory
 
 
 class Frechet:

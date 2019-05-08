@@ -1,7 +1,7 @@
 import unittest
-from trajectory.trajectory import Trajectory
-from trajectory.point import Point
-from trajectory.discreteFrechet import frechetDist
+from trajectories.trajectory import Trajectory
+from trajectories.point import Point
+from trajectories.discreteFrechet import frechetDist
 
 class TestDiscreteFrechet(unittest.TestCase):
     def testdiscretefrechet(self):

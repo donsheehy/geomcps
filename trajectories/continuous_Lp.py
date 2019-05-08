@@ -1,6 +1,6 @@
 import math
-from trajectory import Trajectory
-from point import Point
+from trajectories.trajectory import Trajectory
+from trajectories.point import Point
 
 
 def L_p(P, Q, p):

@@ -1,5 +1,5 @@
 import unittest
-from trajectory.frechet import *
+from trajectories.frechet import *
 
 
 class TestFrechet(unittest.TestCase):

@@ -1,5 +1,5 @@
 import unittest
-from trajectory.point import Point
+from trajectories.point import Point
 
 class TestLp(unittest.TestCase):
     def test_2D_point_init(self):

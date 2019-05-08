@@ -1,5 +1,5 @@
-from point import Point
-from trajectory import Trajectory
+from trajectories.point import Point
+from trajectories.trajectory import Trajectory
 
 # Takes two trajectories and returns a list of two trajectories such that both have the same number of points
 def snipTrajectory(t1, t2):

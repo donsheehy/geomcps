@@ -4,7 +4,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="trajectory-donsheehy",
+    name="trajectories-donsheehy",
     version="0.0.1",
     author="Don Sheehy",
     author_email="don.r.sheehy@gmail.com",

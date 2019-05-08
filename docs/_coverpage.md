@@ -1,13 +1,13 @@
 <!-- ![logo](logosmall.png) -->
 <img src = "logo.png" width = 70%>
 
-> A collection of implementations, functions and ideas.
+> Geometric Analysis of Trajectory Data in Python
 
-- By Don Sheehy and co.
+<!-- - By Don Sheehy and co.
 - University of Connecticut
-- April 2019
+- April 2019 -->
 
-[UConn](https://uconn.edu)
+[Don Sheehy](https://donsheehy.net)
 [Scroll](#main)
 
 

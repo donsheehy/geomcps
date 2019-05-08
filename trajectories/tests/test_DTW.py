@@ -1,6 +1,7 @@
 import unittest
-from trajectory.dynamic_time_warper import *
-from trajectory.trajectory import Trajectory
+from trajectories.dynamic_time_warper import *
+from trajectories.trajectory import Trajectory
+from trajectories.point import Point
 
 class TestDTW(unittest.TestCase):
     def test_1D_DTW(self):

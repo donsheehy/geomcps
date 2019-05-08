@@ -1,6 +1,6 @@
 import unittest
 import os
-import trajectory.dataprocessor as dataprocessor
+import trajectories.dataprocessor as dataprocessor
 
 
 class TestDataProcessor(unittest.TestCase):

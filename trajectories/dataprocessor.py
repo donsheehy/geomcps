@@ -1,7 +1,7 @@
 import os
 # import trajectory.datasample as ds
-import datasample as ds
-import config as config
+import trajectories.datasample as ds
+import trajectories.config as config
 # import trajectory.config as config
 import sys
 

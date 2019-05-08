@@ -1,7 +1,7 @@
 # import trajectory.trajectory as trajectory
 # from trajectory.point import Point
 # import trajectory
-import trajectory as trajectory
+import trajectories.trajectory as trajectory
 from point import Point
 
 

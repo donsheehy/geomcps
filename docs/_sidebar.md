@@ -1,3 +1,5 @@
 * [Home](/)
-* [README](readme.md)
-* test
+* [Guide](guide.md)
+* [Dynamic Time-Warping](dtw.md)
+* [L_p Norms](l_p.md)
+* [Multi-Dimensional Scaling](mds.md)

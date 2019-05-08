@@ -1,6 +1,6 @@
 import unittest
-from trajectory.continuous_Lp import *
-
+from trajectories.continuous_Lp import *
+from trajectories.trajectory import Trajectory
 
 class TestContinuous_Lp(unittest.TestCase):
     def testcontinuousLp1(self):
