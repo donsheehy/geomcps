@@ -1,6 +1,6 @@
 import numpy as np
 import scipy.linalg as slinalg
-from point import Point
+from trajectories.point import Point
 
 # Input is a list of n > 1 "trajectories", a distance function/metric and the desired output dimension
 # Returns a list of points in the desired dimensione, scaled using the classical MDS algorithm
