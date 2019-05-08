@@ -2,7 +2,7 @@
 # from trajectory.point import Point
 # import trajectory
 import trajectories.trajectory as trajectory
-from point import Point
+from trajectories.point import Point
 
 
 class DataSamples:
