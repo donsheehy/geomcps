@@ -3,7 +3,7 @@ from trajectories.trajectory import Trajectory
 from trajectories.point import Point
 
 
-def L_p(P, Q, p):
+def contL_p(P, Q, p):
     P0 = P[0].t
     for x in range(len(P)):
         if P[x].t == 0:
